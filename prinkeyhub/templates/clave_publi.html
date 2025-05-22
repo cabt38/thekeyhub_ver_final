@@ -1,34 +1,198 @@
-<a href="{% url 'perfil_usu' %}">Volver</a>
-<h1>Publicar Nueva Clave</h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar Nueva Clave</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<form method="post">
-    {% csrf_token %}
-    <label>Nombre del juego:</label><br>
-    <input type="text" name="nombre_juego" required><br>
+    <style>
+        body {
+            display: flex;
+            justify-content: center; 
+            align-items: center;    
+            min-height: 100vh;      
+            margin: 0;
+            background-color: #525355; /* Un fondo gris claro para el cuerpo */
+            font-family: 'Arial', sans-serif;
+            position: relative; 
+        }
 
-    <label>Género:</label><br>
-    <select name="genero" required>
-        <option value="ACC">Acción</option>
-        <option value="AVE">Aventura</option>
-        <option value="RPG">RPG</option>
-        <option value="EST">Estrategia</option>
-        <option value="DEP">Deportes</option>
-        <option value="SAN">Sandbox</option>
-    </select><br>
+        .publish-key-container {
+            background-color: #333333;
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+            width: 100%;
+            max-width: 600px; 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
 
-    <label>Descripción:</label><br>
-    <textarea name="descripcion" required></textarea><br>
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #00bcd4; 
+            text-decoration: none;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+        }
 
-    <label>Precio:</label><br>
-    <input type="number" step="0.01" name="precio" required><br>
+        .back-button:hover {
+            color: #008c9e;
+        }
 
-    <label>Clave del juego:</label><br>
-    <input type="text" name="clave_juego" required><br>
+        h1 {
+            color: #00bcd4; 
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
 
-    <label>
-        <input type="checkbox" name="terminos" required>
-        Acepto los términos y condiciones
-    </label><br>
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc; 
+            font-weight: bold;
+        }
 
-    <button type="submit">Publicar clave</button>
-</form>
+        form input[type="text"],
+        form input[type="number"],
+        form select,
+        form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #555; 
+            border-radius: 5px;
+            background-color: #444; 
+            color: white;
+            font-size: 1em;
+            box-sizing: border-box; 
+        }
+
+        form input[type="text"]:focus,
+        form input[type="number"]:focus,
+        form select:focus,
+        form textarea:focus {
+            border-color: #00bcd4;
+            outline: none; 
+            box-shadow: 0 0 5px rgba(0, 188, 212, 0.5); 
+        }
+
+        form textarea {
+            resize: vertical; 
+            min-height: 100px;
+        }
+
+        form input[type="file"] {
+            width: 100%;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        form input[type="file"]::-webkit-file-upload-button {
+            background-color: #00bcd4;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form input[type="file"]::-webkit-file-upload-button:hover {
+            background-color: #008c9e;
+        }
+
+        form input[type="checkbox"] {
+            margin-right: 10px; /* Espacio entre el checkbox y el label */
+        }
+        
+        form label.checkbox-label { 
+            display: inline-flex; 
+            align-items: center;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        form button[type="submit"] {
+            width: 100%;
+            background-color: #dc3545; 
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        form button[type="submit"]:hover {
+            background-color: #c82333; 
+        }
+    </style>
+</head>
+<body>
+    <div class="publish-key-container">
+        <a href="{% url 'perfil_usu' %}" class="back-button">
+            <i class="fas fa-arrow-left"></i> Volver
+        </a>
+
+        <h1>Publicar Nueva Clave</h1>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="id_nombre_juego">Nombre del juego:</label>
+            <input type="text" id="id_nombre_juego" name="nombre_juego" required><br>
+
+            <label for="id_genero">Género:</label>
+            <select id="id_genero" name="genero" required>
+                <option value="ACC">Acción</option>
+                <option value="AVE">Aventura</option>
+                <option value="RPG">RPG</option>
+                <option value="EST">Estrategia</option>
+                <option value="DEP">Deportes</option>
+                <option value="SAN">Sandbox</option>
+            </select><br>
+
+            <label for="id_plataforma">Plataforma:</label>
+            <select id="id_plataforma" name="plataforma" required>
+                <option value="PC">PC</option>
+                <option value="XBOX">XBOX</option>
+                <option value="PS5">PS5</option>
+            </select><br>
+
+            <label for="id_descripcion">Descripción:</label>
+            <textarea id="id_descripcion" name="descripcion" required></textarea><br>
+
+            <label for="id_precio">Precio:</label>
+            <input type="number" id="id_precio" step="0.01" name="precio" required><br>
+
+            <label for="id_clave_juego">Clave del juego:</label>
+            <input type="text" id="id_clave_juego" name="clave_juego" required><br>
+
+            <label for="id_imagen">Imagen del juego:</label>
+            <input type="file" id="id_imagen" name="imagen" accept="image/*"><br>
+            
+            <label class="checkbox-label">
+                <input type="checkbox" name="terminos" required>
+                Acepto los términos y condiciones
+            </label><br>
+
+            <button type="submit">Publicar clave</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

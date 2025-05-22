@@ -19,12 +19,12 @@
               {% if clave.imagen %}
                 <img src="{{ clave.imagen.url }}" class="card-img-top" alt="{{ clave.nombre_juego }}">
               {% else %}
-                <img src="{% static 'img/default.jpg' %}" class="card-img-top" alt="{{ clave.nombre_juego }}">
+                <img src="{% static 'img/defaul.jpeg' %}" class="card-img-top" alt="{{ clave.nombre_juego }}">
               {% endif %}
               <div class="card-body">
                 <h5 class="card-title">{{ clave.nombre_juego }}</h5>
                 <p class="card-text">Precio: ${{ clave.precio }}</p>
-                <p class="card-text">Consola: {{ clave.consola }}</p>
+                <p class="card-text">Consola: {{ clave.plataforma }}</p>
               </div>
             </div>
           </div>

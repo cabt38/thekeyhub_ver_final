@@ -147,6 +147,8 @@ def publicar_clave(request):
         precio = request.POST.get("precio")
         clave_juego = request.POST.get("clave_juego")
         terminos = request.POST.get("terminos") == "on"
+        plataforma = request.POST.get("plataforma") # Capturar el nuevo campo
+        imagen = request.FILES.get("imagen") # ¡Capturar la imagen
 
         Clave.objects.create(
             nombre_juego=nombre_juego,
@@ -157,7 +159,9 @@ def publicar_clave(request):
             terminos_y_condiciones=terminos,
             usuario=usuario,
             en_venta=True,
-            vendida=False
+            vendida=False,
+            plataforma=plataforma, # Asignar el valor de plataforma
+            imagen=imagen, # ¡Asignar la imagen!
         )
 
         messages.success(request, "Clave publicada exitosamente.")
@@ -170,8 +174,22 @@ def detalle_clave(request, clave_id):
     return render(request, 'clave_deta.html', {'clave': clave})
 
 def ver_claves(request):
+    datos_sesion = request.session.get("drope")
+    usuario_logueado = None # Inicializar a None por si no hay sesión
+
+    if datos_sesion and "id" in datos_sesion:
+        try:
+            # Buscar el objeto Usuario correspondiente al ID en la sesión
+            usuario_logueado = Usuario.objects.get(id=datos_sesion["id"])
+        except Usuario.DoesNotExist:
+            usuario_logueado = None
+
     claves = Clave.objects.all()
-    return render(request, 'claves.html', {'claves': claves})
+
+    return render(request, 'claves.html', {
+        'claves': claves,
+        'usuario': usuario_logueado # Pasa el objeto Usuario logueado (o None si no hay)
+    })
 
 def mis_claves(request):
     usuario_id = request.session.get('drope', {}).get('id')  # Asegúrate de que este sea el ID del usuario en sesión

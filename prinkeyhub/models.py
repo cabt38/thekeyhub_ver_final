@@ -40,6 +40,12 @@ class Clave(models.Model):
         ('SAN', 'SANDBOX')
         )
     
+    PLATAFORMA = (
+        ('PC', 'PC'),
+        ('XBOX', 'XBOX'),
+        ('PS5', 'PS5'),
+    )
+    
     nombre_juego = models.CharField(max_length=100)
     genero = models.CharField(max_length=50, choices=GENERO)
     descripcion = models.TextField()
@@ -47,9 +53,11 @@ class Clave(models.Model):
     clave_juego = models.CharField(max_length=255)
     terminos_y_condiciones = models.BooleanField(default=True)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    #imagen = models.ImageField(upload_to='imagenes_juegos/') ruta aun por definir
+    imagen = models.ImageField(upload_to='img_juegos/', default='default/defaul.jpeg',blank=True, null=True)
     en_venta = models.BooleanField(default=True)
     vendida = models.BooleanField(default=False)
+    # Nuevo campo de plataforma
+    plataforma = models.CharField(max_length=50, choices=PLATAFORMA, default='PC')
 
     def __str__(self):
         return self.nombre_juego
