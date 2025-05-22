@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyhub</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li>
+                <a href="{% url 'home' %}">Home</a>
+            </li>
+            {% if request.session.drope %}
+            <li>
+                <a href="{% url 'logout' %}">cerrar sesión</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="{% url 'login' %}">Iniciar Sesión</a>
+            </li>
+            <li>
+                <a href="{% url 'registro' %}">Registrarse</a>
+            </li>
+            {% endif %}
+        </ul>
+        
+    </nav>
+    
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

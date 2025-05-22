@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>The Key Hub</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-image: url("{% static 'img/paper.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filtro-btn {
+      border-radius: 20px;
+      padding: 5px 15px;
+      font-weight: bold;
+      border: none;
+    }
+
+    .barra-busqueda {
+      background-color: white;
+      border-radius: 25px;
+      padding: 12px 25px;
+      width: 70vh;
+      margin: 20px auto;
+      color: black;
+      font-size: 16px;
+    }
+
+    .destacados {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 20px;
+      margin-top: 40px;
+      width: 100%;
+    }
+
+    .juego-card img {
+      border-radius: 15px;
+    }
+
+    .logo {
+      font-size: 48px;
+      font-weight: bold;
+      text-shadow: 2px 2px black;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 10px 30px;
+      border-radius: 15px;
+      display: inline-block;
+    }
+
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .btn-pc {
+      background-color: #fd4036;
+      color: white;
+      border-radius: 20px;
+      padding: 6px 20px;
+      border: none;
+    }
+
+    .btn-ps5 {
+      background-color: #5144ff;
+      color: white;
+      border-radius: 20px;
+      padding: 6px 20px;
+      border: none;
+    }
+
+    .btn-xbox {
+      background-color: #198b49;
+      color: white;
+      border-radius: 20px;
+      padding: 6px 20px;
+      border: none;
+    }
+
+    .btn-login {
+      background-color: transparent;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+    <div class="container-fluid py-3">
+        <div class="d-flex justify-content-between align-items-center">
+          
+          <div style="width: 130px;"></div>
+   
+          <div class="d-flex gap-3 justify-content-center">
+            <a href="{% url 'claves' %}" class="btn btn-outline-light" style="border-radius: 20px; padding: 6px 20px;">
+              Ver todas las claves en venta
+            </a>
+          </div>
+          
+          {% if request.session.drope %}
+            <a href="{% url 'perfil_usu' %}" class="btn btn-login d-flex align-items-center justify-content-center">
+              Mi Perfil
+            </a>
+          {% else %}
+            <a href="{% url 'login' %}" class="btn btn-login d-flex align-items-center justify-content-center">
+              Iniciar Sesión
+            </a>
+        {% endif %}
+          
+        </div>
+      </div>
+  
+    
+    <div class="container main-content text-center">
+      <div class="logo mb-3">the key hub</div>
+  
+  
+      <div class="destacados mt-5">
+  <h3 class="mb-4">Destacados de Hoy</h3>
+
+  {% if claves %}
+   <div id="carruselClaves" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+
+    {% for clave in claves %}
+      {% if forloop.counter0|divisibleby:3 %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          <div class="row justify-content-center">
+      {% endif %}
+
+            <div class="col-10 col-sm-6 col-md-4 col-lg-3 mb-3">
+              <a href="{% url 'clave_deta' clave.id %}">
+                <div class="card bg-dark text-white border-0 h-100">
+                  {% if clave.imagen %}
+                    <img src="{{ clave.imagen.url }}" class="card-img-top" alt="{{ clave.nombre_juego }}">
+                  {% else %}
+                    <img src="{% static 'img/default.jpg' %}" class="card-img-top" alt="{{ clave.nombre_juego }}">
+                  {% endif %}
+                  <div class="card-body">
+                    <h5 class="card-title">{{ clave.nombre_juego }}</h5>
+                    <p class="card-text">${{ clave.precio }}</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+      {% if forloop.counter|divisibleby:3 or forloop.last %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+    {% endif %}
+
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#carruselClaves" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carruselClaves" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+  

@@ -1,0 +1,34 @@
+<a href="{% url 'edit_perfil' %}">Volver</a>
+<h1>Publicar Nueva Clave</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <label>Nombre del juego:</label><br>
+    <input type="text" name="nombre_juego" required><br>
+
+    <label>Género:</label><br>
+    <select name="genero" required>
+        <option value="ACC">Acción</option>
+        <option value="AVE">Aventura</option>
+        <option value="RPG">RPG</option>
+        <option value="EST">Estrategia</option>
+        <option value="DEP">Deportes</option>
+        <option value="SAN">Sandbox</option>
+    </select><br>
+
+    <label>Descripción:</label><br>
+    <textarea name="descripcion" required></textarea><br>
+
+    <label>Precio:</label><br>
+    <input type="number" step="0.01" name="precio" required><br>
+
+    <label>Clave del juego:</label><br>
+    <input type="text" name="clave_juego" required><br>
+
+    <label>
+        <input type="checkbox" name="terminos" required>
+        Acepto los términos y condiciones
+    </label><br>
+
+    <button type="submit">Publicar clave</button>
+</form>

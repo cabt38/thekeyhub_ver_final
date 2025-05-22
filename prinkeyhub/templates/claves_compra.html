@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Claves Compradas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .clave-lista {
+            list-style: none;
+            padding: 0;
+        }
+
+        .clave-item {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid #007bff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .clave-item h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+
+        .clave-item p {
+            margin: 5px 0;
+        }
+
+        .fecha {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .no-compras {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 5px solid #ffc107;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mis Claves Compradas</h1>
+
+    <a href="{% url 'perfil_usu' %}">← Volver</a>
+
+    {% if compras %}
+        <ul class="clave-lista">
+            {% for compra in compras %}
+                <li class="clave-item">
+                    <h3>{{ compra.clave.nombre_juego }}</h3>
+                    <p><strong>Clave:</strong> {{ compra.clave.clave_juego }}</p>
+                    <p><strong>Género:</strong> {{ compra.clave.get_genero_display }}</p>
+                    <p class="fecha">Comprado el {{ compra.fecha_compra|date:"d/m/Y H:i" }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="no-compras">
+            <p>No has comprado ninguna clave todavía.</p>
+        </div>
+    {% endif %}
+</body>
+</html>
