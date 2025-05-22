@@ -30,5 +30,6 @@ urlpatterns = [
     path('ver_claves/', views.ver_claves_compradas, name='claves_compra'),
     path('clave_publi/', views.publicar_clave, name='clave_publi'),
     path('clave_deta/<int:clave_id>/', views.detalle_clave, name='clave_deta'),
-    path('claves/', views.ver_claves, name='claves')
+    path('claves/', views.ver_claves, name='claves'),
+    path('mis_claves/', views.mis_claves, name='mis_claves')
 ]

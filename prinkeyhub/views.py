@@ -172,3 +172,13 @@ def detalle_clave(request, clave_id):
 def ver_claves(request):
     claves = Clave.objects.all()
     return render(request, 'claves.html', {'claves': claves})
+
+def mis_claves(request):
+    usuario_id = request.session.get('drope', {}).get('id')  # Asegúrate de que este sea el ID del usuario en sesión
+    usuario = Usuario.objects.get(id=usuario_id)
+    
+    if usuario.rol != 'v':
+        return render(request, 'perfil_usu.html', {'mensaje': 'Acceso denegado'})
+
+    claves = Clave.objects.filter(usuario=usuario)
+    return render(request, 'mis_claves.html', {'claves': claves})
